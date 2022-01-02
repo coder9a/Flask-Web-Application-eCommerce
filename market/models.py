@@ -1,9 +1,10 @@
-from flask_wtf.form import FlaskForm
-from wtforms.fields.simple import StringField
-from wtforms.validators import DataRequired
-from market import db
+from market import db, login_manager
 from market import bcrypt
 from flask_login import UserMixin
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
 
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer(), primary_key=True)
@@ -14,6 +15,13 @@ class User(db.Model, UserMixin):
     items = db.relationship('Item', backref='owned_user', lazy=True)
     def __repr__(self):
         return f'Item {self.name}'
+
+    @property
+    def prettier_budget(self):
+        if len(str(self.budget)) >= 4:
+            return f'{str(self.budget)[:-3]},{str(self.budget)[-3:]}'
+        else:
+            return f'{self.budget}'
 
     @property
     def password(self):
