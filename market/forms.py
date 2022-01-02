@@ -1,3 +1,4 @@
+from sqlalchemy.orm import subqueryload
 from market.models import User
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, ValidationError
@@ -24,3 +25,9 @@ class LoginForm(FlaskForm):
     username = StringField(label='User Name',validators=[DataRequired()])
     password = PasswordField(label='Password',validators=[DataRequired()])
     submit = SubmitField(label='Signin')
+
+class PurchaseItemForm(FlaskForm):
+    submit = SubmitField(label='Purchase Item!')
+
+class SellItemForm(FlaskForm):
+    submit = SubmitField(label='Sell Item!')
