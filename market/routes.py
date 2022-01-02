@@ -1,4 +1,4 @@
-from flask.helpers import url_for
+from flask.helpers import url_for,flash
 from werkzeug.utils import redirect
 from market import app
 from flask import render_template
@@ -28,5 +28,5 @@ def registerPage():
 
     if form.errors != {}:
         for err_msg in form.errors.values():
-            print(f'There is an error with creating a user: {err_msg}')
+            flash(f'There is an error with creating a user: {err_msg}', category='danger')
     return render_template('register.html', form=form)
